@@ -1,0 +1,971 @@
+:root {
+  --bg-top: #2A3550;
+  --bg-bottom: #1E2538;
+  --text-main: #F4F6FB;
+  --text-muted: #A6B4CE;
+  --text-done: #7B8A9E;
+  --glass-surface: rgba(40, 48, 75, 0.7);
+  --glass-surface-hover: rgba(48, 58, 90, 0.78);
+  --glass-surface-active: rgba(54, 65, 100, 0.86);
+  --glass-border: rgba(220, 230, 255, 0.15);
+  --glass-border-hover: rgba(255, 230, 128, 0.3);
+  --glass-shadow: 0 14px 34px -8px rgba(10, 14, 25, 0.5), 0 2px 6px rgba(0, 0, 0, 0.25);
+  --glass-shadow-hover: 0 18px 40px -6px rgba(10, 14, 25, 0.6), 0 4px 10px rgba(0, 0, 0, 0.3);
+  --gold-primary: #FFE680;
+  --gold-secondary: #FFD568;
+  --gold-glow: 0 0 16px rgba(255, 230, 128, 0.45);
+  --nightcap-blue: #8C9EFF;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+  min-height: 100vh;
+  color: var(--text-main);
+  background: radial-gradient(circle at 50% 25%, #1D2436 0%, #111520 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 10px;
+  overflow-x: hidden;
+  user-select: none;
+}
+
+/* Device wrapper for Desktop showcase (iPhone 390 x 844) */
+.device-shell {
+  width: 100%;
+  max-width: 410px;
+  min-height: 844px;
+  height: 890px;
+  border-radius: 50px;
+  background: #181E2E;
+  padding: 11px;
+  box-shadow: 
+    0 25px 60px -12px rgba(0, 0, 0, 0.65),
+    0 10px 24px rgba(0, 0, 0, 0.45),
+    inset 0 0 4px 2px rgba(255, 255, 255, 0.08),
+    0 0 0 2px rgba(60, 75, 110, 0.4);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  animation: floatApp 8s ease-in-out infinite alternate;
+}
+
+@keyframes floatApp {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-6px); }
+}
+
+/* Phone Notch / Dynamic Island */
+.iphone-island {
+  width: 120px;
+  height: 28px;
+  background: #0f141f;
+  border-radius: 20px;
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  box-shadow: inset 0 -1px 2px rgba(255, 255, 255, 0.08), 0 2px 6px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 10px;
+}
+
+.island-lens {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #070a10;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* The Main App Canvas (matches requested iPhone 390x844 canvas) */
+.app-screen {
+  width: 100%;
+  height: 100%;
+  border-radius: 40px;
+  background: linear-gradient(180deg, var(--bg-top) 0%, #242D44 48%, var(--bg-bottom) 100%);
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: none;
+}
+
+.app-screen::-webkit-scrollbar {
+  display: none;
+}
+
+/* Soft Dreamy Pattern Background (Stars & Moons) */
+.celestial-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.92;
+}
+
+/* Fluffy Soft Clouds Background Elements */
+.ambient-cloud {
+  position: absolute;
+  background: radial-gradient(circle, rgba(95, 115, 165, 0.22) 0%, rgba(65, 80, 125, 0.08) 50%, rgba(42, 53, 80, 0) 75%);
+  filter: blur(28px);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cloud-top-left {
+  width: 220px;
+  height: 200px;
+  top: -40px;
+  left: -60px;
+}
+
+.cloud-middle-right {
+  width: 250px;
+  height: 220px;
+  top: 320px;
+  right: -80px;
+}
+
+.cloud-bottom-left {
+  width: 260px;
+  height: 240px;
+  bottom: 20px;
+  left: -70px;
+}
+
+/* Content Area */
+.screen-content {
+  position: relative;
+  z-index: 10;
+  padding: 56px 20px 36px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 1. HEADER SECTION */
+.header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
+  padding: 0 4px;
+}
+
+.header-title-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #A3B3CF;
+  margin-bottom: 3px;
+}
+
+.header-tag .pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold-primary);
+  box-shadow: 0 0 10px rgba(255, 230, 128, 0.8);
+  animation: pulseGlow 2s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.3); opacity: 1; }
+}
+
+.header-title {
+  font-size: 23px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.profile-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 18px;
+  background: var(--glass-surface);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+
+.profile-btn:hover {
+  transform: scale(1.06);
+  background: var(--glass-surface-hover);
+  border-color: var(--glass-border-hover);
+  box-shadow: var(--glass-shadow-hover);
+}
+
+.profile-btn:active {
+  transform: scale(0.94);
+}
+
+.profile-avatar-emoji {
+  font-size: 22px;
+  line-height: 1;
+}
+
+/* Audio Mute/Unmute Lullaby Toggle */
+.audio-toggle-btn {
+  position: absolute;
+  bottom: -6px;
+  right: -6px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #6074B2;
+  color: #FFFFFF;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* 2. CARD DI AVANZAMENTO */
+.progress-card {
+  background: var(--glass-surface);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 26px;
+  padding: 16px 18px;
+  box-shadow: var(--glass-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.progress-card:hover {
+  box-shadow: var(--glass-shadow-hover);
+  border-color: rgba(255, 230, 128, 0.25);
+}
+
+.progress-card::after {
+  content: '';
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  width: 110px;
+  height: 110px;
+  background: radial-gradient(circle, rgba(255, 230, 128, 0.12) 0%, rgba(255, 230, 128, 0) 70%);
+  pointer-events: none;
+}
+
+.progress-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.progress-label-wrap {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.progress-icon-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold-primary);
+}
+
+.progress-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+}
+
+.progress-fraction {
+  font-size: 13px;
+  font-weight: 800;
+  color: #E2E8F0;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 4px 11px;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Progress bar track */
+.progress-bar-track {
+  width: 100%;
+  height: 14px;
+  background: rgba(18, 24, 38, 0.65);
+  border-radius: 100px;
+  padding: 2.5px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+  position: relative;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #6074B2 0%, #8C7CBE 45%, #FFE680 100%);
+  border-radius: 100px;
+  width: 60%;
+  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 0 12px rgba(255, 230, 128, 0.4);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.progress-star-indicator {
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  right: -6px;
+  background: #232C42;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 0 0 10px #FFE680;
+  border: 1px solid #FFE680;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: #FFE680;
+}
+
+.progress-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  padding: 0 2px;
+}
+
+.progress-footer .hint {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.progress-footer .hint span.symbol {
+  color: var(--gold-primary);
+  font-size: 14px;
+  filter: drop-shadow(0 0 4px rgba(255, 230, 128, 0.5));
+}
+
+.progress-percent-text {
+  color: #FFE680;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+/* 3. SEZIONE COSE DA FARE PRIMA DELLA NANNA */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 4px 0 4px;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+}
+
+.section-count-chip {
+  font-size: 11px;
+  font-weight: 800;
+  color: #CCD6E8;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.section-count-chip .dot {
+  width: 5px;
+  height: 5px;
+  background: var(--gold-primary);
+  box-shadow: 0 0 6px rgba(255, 230, 128, 0.7);
+  border-radius: 50%;
+}
+
+/* Checklist Cards Container */
+.routine-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Task Item Pill Card */
+.task-card {
+  background: var(--glass-surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 22px;
+  padding: 12px 14px;
+  box-shadow: var(--glass-shadow);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.28s cubic-bezier(0.34, 1.3, 0.64, 1);
+  overflow: hidden;
+}
+
+.task-card:hover {
+  background: var(--glass-surface-hover);
+  border-color: var(--glass-border-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--glass-shadow-hover);
+}
+
+.task-card:active {
+  transform: scale(0.985);
+}
+
+/* Checked State */
+.task-card.is-checked {
+  background: rgba(48, 58, 90, 0.85);
+  border-color: rgba(255, 230, 128, 0.26);
+  box-shadow: 0 8px 24px -6px rgba(10, 14, 25, 0.45);
+}
+
+.task-card.is-checked .task-text {
+  color: var(--text-done);
+  text-decoration: line-through;
+  text-decoration-color: rgba(123, 138, 158, 0.6);
+  font-weight: 600;
+}
+
+/* Custom Checkbox */
+.custom-checkbox {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+
+/* Empty state */
+.custom-checkbox.unchecked {
+  border: 2px solid rgba(215, 225, 250, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.task-card:hover .custom-checkbox.unchecked {
+  border-color: var(--gold-primary);
+  background: rgba(255, 230, 128, 0.1);
+  transform: scale(1.05);
+}
+
+/* Checked state: Soft warm golden star badge */
+.custom-checkbox.checked {
+  background: linear-gradient(135deg, #FFB300 0%, #FFD54F 55%, #FFE680 100%);
+  box-shadow: var(--gold-glow), 0 2px 8px rgba(0, 0, 0, 0.25);
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  transform: scale(1.02);
+}
+
+.custom-checkbox.checked .star-icon {
+  color: #382800;
+  font-size: 20px;
+  font-variation-settings: 'FILL' 1, 'wght' 700;
+  animation: popStar 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes popStar {
+  0% { transform: scale(0.4) rotate(-30deg); opacity: 0; }
+  70% { transform: scale(1.25) rotate(10deg); }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* Task Left Leading Icon (soft squircle) */
+.task-leading-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  flex-shrink: 0;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.task-text {
+  flex: 1;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  transition: all 0.25s ease;
+}
+
+/* 3D Theme Sticker on the Right */
+.task-sticker-wrap {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.task-card:hover .task-sticker-wrap {
+  transform: scale(1.15) rotate(6deg);
+}
+
+.sticker-emoji {
+  font-size: 24px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35));
+  line-height: 1;
+}
+
+/* Specially rendered 3D SVG Toothbrush for task 1 */
+.svg-3d-sticker {
+  width: 32px;
+  height: 32px;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+}
+
+/* 4. PULSANTI D'AZIONE */
+.actions-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+/* Fluffy 3D Night Cloud Button */
+.cloud-btn {
+  width: 100%;
+  max-width: 330px;
+  height: 58px;
+  position: relative;
+  background: linear-gradient(180deg, #3A476A 0%, #2E3854 100%);
+  border: 1.8px solid rgba(255, 230, 128, 0.45);
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  box-shadow: 
+    0 14px 28px -6px rgba(10, 14, 25, 0.6),
+    0 4px 12px rgba(0, 0, 0, 0.25),
+    inset 0 2px 4px rgba(255, 255, 255, 0.15),
+    inset 0 -3px 6px rgba(15, 20, 32, 0.4);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  padding: 0 20px;
+  z-index: 5;
+}
+
+/* Fluffy Cloud humps created with pseudo-elements */
+.cloud-btn::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 24%;
+  width: 52px;
+  height: 32px;
+  background: linear-gradient(180deg, #3D4B70 0%, #343F5E 100%);
+  border-radius: 50%;
+  border-top: 1.8px solid rgba(255, 230, 128, 0.45);
+  border-left: 1.5px solid rgba(255, 230, 128, 0.35);
+  pointer-events: none;
+  z-index: -1;
+  box-shadow: 0 -4px 12px -2px rgba(10, 14, 25, 0.4);
+}
+
+.cloud-btn::after {
+  content: '';
+  position: absolute;
+  top: -14px;
+  right: 26%;
+  width: 62px;
+  height: 38px;
+  background: linear-gradient(180deg, #3B486C 0%, #313B58 100%);
+  border-radius: 50%;
+  border-top: 1.8px solid rgba(255, 230, 128, 0.45);
+  border-right: 1.5px solid rgba(255, 230, 128, 0.35);
+  pointer-events: none;
+  z-index: -1;
+  box-shadow: 0 -5px 14px -2px rgba(10, 14, 25, 0.4);
+}
+
+.cloud-btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  background: linear-gradient(180deg, #425178 0%, #333E5C 100%);
+  box-shadow: 
+    0 18px 34px -6px rgba(10, 14, 25, 0.7),
+    0 0 20px rgba(255, 230, 128, 0.25),
+    inset 0 2px 4px rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 230, 128, 0.7);
+}
+
+.cloud-btn:active {
+  transform: translateY(1px) scale(0.97);
+  box-shadow: 
+    0 8px 18px -4px rgba(10, 14, 25, 0.5),
+    inset 0 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+.cloud-btn-icon {
+  font-size: 22px;
+  color: var(--gold-primary);
+  filter: drop-shadow(0 0 8px rgba(255, 230, 128, 0.7));
+  animation: gentleBounce 2.5s infinite ease-in-out;
+}
+
+@keyframes gentleBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+.cloud-btn-text {
+  font-size: 15px;
+  font-weight: 900;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+}
+
+/* Secondary Reset Button */
+.reset-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+  color: #A3B3CF;
+  cursor: pointer;
+  padding: 6px 14px;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(163, 179, 207, 0.35);
+}
+
+.reset-btn:hover {
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.08);
+  text-decoration-color: var(--text-main);
+}
+
+.reset-btn:active {
+  transform: scale(0.96);
+}
+
+.reset-btn .material-symbols-rounded {
+  font-size: 16px;
+}
+
+/* 5. CARD FINALE DELLA STORIA */
+.story-card {
+  background: var(--glass-surface);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 26px;
+  padding: 16px 18px;
+  box-shadow: var(--glass-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+  margin-top: 2px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.story-card:hover {
+  border-color: rgba(255, 230, 128, 0.25);
+  box-shadow: var(--glass-shadow-hover);
+}
+
+.story-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.story-title-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.story-title-badge .book-icon {
+  font-size: 16px;
+  color: var(--gold-primary);
+}
+
+.story-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+}
+
+.story-moon-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FFF7CE 0%, #FFE57F 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  box-shadow: 0 4px 14px rgba(255, 230, 128, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  animation: floatMoon 4s ease-in-out infinite alternate;
+}
+
+@keyframes floatMoon {
+  0% { transform: translateY(0) rotate(-5deg); }
+  100% { transform: translateY(-4px) rotate(5deg); }
+}
+
+/* Favoletta Narrative */
+.story-body {
+  background: rgba(25, 31, 48, 0.65);
+  border-radius: 18px;
+  padding: 13px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.story-character-tag {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--gold-primary);
+}
+
+.story-text {
+  font-size: 13px;
+  line-height: 1.55;
+  color: #E2E8F0;
+  font-weight: 600;
+  font-style: italic;
+}
+
+/* Congratulation Celebration Box */
+.celebration-box {
+  background: linear-gradient(135deg, rgba(65, 54, 30, 0.65) 0%, rgba(48, 42, 28, 0.75) 100%);
+  border: 1px solid rgba(255, 230, 128, 0.35);
+  border-radius: 18px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 6px 18px -4px rgba(0, 0, 0, 0.4);
+}
+
+.celebration-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #FFB300 0%, #FFD54F 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  flex-shrink: 0;
+  box-shadow: var(--gold-glow);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.celebration-text {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: #FFF3D0;
+  line-height: 1.35;
+}
+
+/* Confetti Canvas for Celebration */
+#confetti-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 99;
+}
+
+/* Interactive Toast Banner */
+.toast-pill {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-30px);
+  background: rgba(26, 33, 50, 0.94);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 230, 128, 0.3);
+  color: var(--text-main);
+  font-size: 12.5px;
+  font-weight: 800;
+  padding: 8px 18px;
+  border-radius: 30px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 120;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.toast-pill.active {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* Desktop Preview Toolbar */
+.preview-toolbar {
+  position: fixed;
+  bottom: 16px;
+  display: flex;
+  gap: 10px;
+  z-index: 200;
+  background: rgba(30, 38, 58, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: 8px 14px;
+  border-radius: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.toolbar-btn {
+  background: rgba(42, 53, 80, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-main);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.toolbar-btn:hover {
+  background: rgba(55, 68, 102, 1);
+  border-color: var(--gold-primary);
+  color: var(--gold-primary);
+}
+
+/* Responsive Adaptation for actual mobile devices */
+@media (max-width: 480px) {
+  body {
+    padding: 0;
+    background: transparent;
+  }
+  .device-shell {
+    max-width: 100vw;
+    height: 100vh;
+    min-height: 100vh;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+    animation: none;
+    border: none;
+  }
+  .iphone-island {
+    display: none;
+  }
+  .app-screen {
+    border-radius: 0;
+  }
+  .screen-content {
+    padding-top: calc(env(safe-area-inset-top, 24px) + 16px);
+    padding-bottom: calc(env(safe-area-inset-bottom, 24px) + 20px);
+  }
+  .preview-toolbar {
+    display: none;
+  }
+}

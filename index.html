@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Routine della Buonanotte - Design Alta Fedeltà</title>
+
+  <!-- Google Fonts: Nunito -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <!-- Material Symbols Rounded -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Phone Shell Container (390 x 844 iPhone display) -->
+  <div class="device-shell" id="deviceShell">
+
+    <!-- iPhone Dynamic Island -->
+    <div class="iphone-island">
+      <div class="island-lens"></div>
+    </div>
+
+    <!-- Inside Screen Surface -->
+    <div class="app-screen" id="appScreen">
+
+      <!-- Ambient Dreamy Background Atmosphere -->
+      <div class="ambient-cloud cloud-top-left"></div>
+      <div class="ambient-cloud cloud-middle-right"></div>
+      <div class="ambient-cloud cloud-bottom-left"></div>
+
+      <!-- Delicate Stars & Crescent Moons SVG Pattern (Warm & Velvety Bedtime Glow) -->
+      <svg class="celestial-pattern" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844">
+        <defs>
+          <!-- Soft warm glow filter -->
+          <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="2" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          </filter>
+        </defs>
+
+        <!-- Top Right Soft Crescent Moon -->
+        <path d="M345 55 A 28 28 0 0 0 318 85 A 28 28 0 0 0 345 115 A 22 22 0 0 1 326 85 A 22 22 0 0 1 345 55 Z"
+          fill="#FFE680" fill-opacity="0.6" filter="url(#softGlow)" />
+
+        <!-- Middle Left Fluffy Little Crescent Moon -->
+        <path d="M42 420 A 20 20 0 0 0 22 442 A 20 20 0 0 0 42 464 A 15 15 0 0 1 28 442 A 15 15 0 0 1 42 420 Z"
+          fill="#FFF6D1" fill-opacity="0.4" />
+
+        <!-- Lower Right Gentle Moon -->
+        <path d="M355 690 A 22 22 0 0 0 333 714 A 22 22 0 0 0 355 738 A 17 17 0 0 1 340 714 A 17 17 0 0 1 355 690 Z"
+          fill="#FFE680" fill-opacity="0.45" />
+
+        <!-- Twinkling 4-point Stars across the sky -->
+        <g fill="#FFE680" fill-opacity="0.75" filter="url(#softGlow)">
+          <!-- Star 1 -->
+          <path d="M60 85 Q60 92 53 92 Q60 92 60 99 Q60 92 67 92 Q60 92 60 85 Z" />
+          <!-- Star 2 -->
+          <path d="M220 70 Q220 76 215 76 Q220 76 220 82 Q220 76 225 76 Q220 76 220 70 Z" fill-opacity="0.85" />
+          <!-- Star 3 -->
+          <path d="M315 160 Q315 165 310 165 Q315 165 315 170 Q315 165 320 165 Q315 165 315 160 Z" />
+          <!-- Star 4 -->
+          <path d="M28 260 Q28 266 22 266 Q28 266 28 272 Q28 266 34 266 Q28 266 28 260 Z" />
+          <!-- Star 5 -->
+          <path d="M358 360 Q358 366 352 366 Q358 366 358 372 Q358 366 364 366 Q358 366 358 360 Z" />
+          <!-- Star 6 -->
+          <path d="M18 580 Q18 586 12 586 Q18 586 18 592 Q18 586 24 586 Q18 586 18 580 Z" />
+          <!-- Star 7 -->
+          <path d="M362 610 Q362 616 356 616 Q362 616 362 622 Q362 616 368 616 Q362 616 362 610 Z" />
+          <!-- Star 8 -->
+          <path d="M120 780 Q120 786 114 786 Q120 786 120 792 Q120 786 126 786 Q120 786 120 780 Z" />
+        </g>
+
+        <!-- Delicate Little Round Dot Stars (Pearlescent White with Low Opacity) -->
+        <g fill="#FFFFFF" fill-opacity="0.45">
+          <circle cx="140" cy="110" r="2" />
+          <circle cx="280" cy="115" r="1.5" />
+          <circle cx="85" cy="190" r="2.5" fill="#FFE680" fill-opacity="0.55" />
+          <circle cx="340" cy="270" r="1.5" />
+          <circle cx="50" cy="350" r="2" />
+          <circle cx="330" cy="480" r="2" fill="#FFE680" fill-opacity="0.5" />
+          <circle cx="75" cy="510" r="1.5" />
+          <circle cx="160" cy="650" r="2.2" fill-opacity="0.5" />
+          <circle cx="290" cy="630" r="1.5" />
+          <circle cx="45" cy="730" r="2" />
+          <circle cx="230" cy="800" r="1.8" />
+        </g>
+      </svg>
+
+      <!-- Toast Feedback -->
+      <div class="toast-pill" id="toastPill">
+        <span>✨</span>
+        <span id="toastText">Passaggio completato!</span>
+      </div>
+
+      <!-- Confetti Particles Canvas -->
+      <canvas id="confetti-canvas"></canvas>
+
+      <!-- Main Scrollable Screen Content -->
+      <div class="screen-content">
+
+        <!-- 1. HEADER SECTION -->
+        <header class="header-bar">
+          <div class="header-title-wrap">
+            <div class="header-tag">
+              <span class="pulse-dot"></span>
+              <span>Rituale serale</span>
+            </div>
+            <h1 class="header-title">
+              <span>Routine della Buonanotte</span>
+            </h1>
+          </div>
+
+          <!-- Profile Icon Button -->
+          <button class="profile-btn" id="profileBtn" title="Profilo bimbo" aria-label="Profilo">
+            <span class="profile-avatar-emoji">🧒</span>
+            <div class="audio-toggle-btn" id="audioToggleBtn" title="Attiva/Disattiva suoni ninna nanna">
+              <span class="material-symbols-rounded" style="font-size: 11px;">volume_up</span>
+            </div>
+          </button>
+        </header>
+
+        <!-- 2. CARD DI AVANZAMENTO -->
+        <section class="progress-card" aria-label="Stato di avanzamento routine">
+          <div class="progress-header">
+            <div class="progress-label-wrap">
+              <div class="progress-icon-badge">
+                <span class="material-symbols-rounded" style="font-size: 19px;">auto_awesome</span>
+              </div>
+              <span class="progress-title">Avanzamento:</span>
+            </div>
+            <span class="progress-fraction" id="progressRatio">3 di 5 completati</span>
+          </div>
+
+          <!-- Progress Bar Track -->
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" id="progressBarFill" style="width: 60%;">
+              <div class="progress-star-indicator">★</div>
+            </div>
+          </div>
+
+          <!-- Progress Subtitle / Percentage -->
+          <div class="progress-footer">
+            <div class="hint">
+              <span class="symbol">🌙</span>
+              <span>Passo dopo passo verso il riposo</span>
+            </div>
+            <span class="progress-percent-text" id="progressPercent">60%</span>
+          </div>
+        </section>
+
+        <!-- 3. SEZIONE: COSE DA FARE PRIMA DELLA NANNA -->
+        <section class="routine-section" aria-label="Lista delle cose da fare">
+          <div class="section-header">
+            <h2 class="section-title">Cose da fare prima della nanna</h2>
+            <div class="section-count-chip">
+              <span class="dot"></span>
+              <span>5 passaggi</span>
+            </div>
+          </div>
+
+          <!-- Exactly 5 Steps Checklist -->
+          <div class="routine-list" id="routineList">
+
+            <!-- 1. Lavarsi i dentini (checked in giallo) -->
+            <div class="task-card is-checked" data-id="1">
+              <div class="custom-checkbox checked">
+                <span class="material-symbols-rounded star-icon">star</span>
+              </div>
+              <div class="task-leading-icon">
+                <span>🦷</span>
+              </div>
+              <span class="task-text">Lavarsi i dentini</span>
+              <!-- 3D Toothbrush sticker -->
+              <div class="task-sticker-wrap" title="Spazzolino da denti">
+                <svg class="svg-3d-sticker" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Handle -->
+                  <path d="M10 32 C9 33 11 35 12 34 L26 18 C27 17 25 15 24 16 L10 32 Z" fill="#7E9DFE" />
+                  <path d="M12 34 L27 19 L25 17 L10 32 Z" fill="#9FB5FF" />
+                  <!-- Brush head -->
+                  <rect x="23" y="11" width="13" height="7" rx="3.5" transform="rotate(-40 23 11)" fill="#FFFFFF" />
+                  <!-- Paste / Bristles -->
+                  <ellipse cx="29" cy="9" rx="5" ry="2.8" transform="rotate(-40 29 9)" fill="#4DD0E1" />
+                  <circle cx="31" cy="7" r="1.5" fill="#E0F7FA" />
+                </svg>
+              </div>
+            </div>
+
+            <!-- 2. Fare il bidet e lavarsi i piedini (checked in giallo) -->
+            <div class="task-card is-checked" data-id="2">
+              <div class="custom-checkbox checked">
+                <span class="material-symbols-rounded star-icon">star</span>
+              </div>
+              <div class="task-leading-icon">
+                <span>🦶</span>
+              </div>
+              <span class="task-text">Fare il bidet e lavarsi i piedini</span>
+              <!-- 3D Water Droplet sticker -->
+              <div class="task-sticker-wrap" title="Goccia d'acqua">
+                <span class="sticker-emoji">💧</span>
+              </div>
+            </div>
+
+            <!-- 3. Lavarsi le manine (checked in giallo) -->
+            <div class="task-card is-checked" data-id="3">
+              <div class="custom-checkbox checked">
+                <span class="material-symbols-rounded star-icon">star</span>
+              </div>
+              <div class="task-leading-icon">
+                <span>🧼</span>
+              </div>
+              <span class="task-text">Lavarsi le manine</span>
+              <!-- 3D Soap Bubbles sticker -->
+              <div class="task-sticker-wrap" title="Bolle di sapone">
+                <span class="sticker-emoji">🫧</span>
+              </div>
+            </div>
+
+            <!-- 4. Indossare il pigiamino (unchecked) -->
+            <div class="task-card" data-id="4">
+              <div class="custom-checkbox unchecked"></div>
+              <div class="task-leading-icon">
+                <span>🧸</span>
+              </div>
+              <span class="task-text">Indossare il pigiamino</span>
+              <!-- 3D Adorable Teddy Bear with nightcap sticker -->
+              <div class="task-sticker-wrap" title="Orsetto con berretto da notte">
+                <span class="sticker-emoji">🐻</span>
+              </div>
+            </div>
+
+            <!-- 5. Dare un bacino a mamma, papà e agli animali (unchecked) -->
+            <div class="task-card" data-id="5">
+              <div class="custom-checkbox unchecked"></div>
+              <div class="task-leading-icon">
+                <span>💜</span>
+              </div>
+              <span class="task-text">Dare un bacino a mamma, papà e agli animali</span>
+              <!-- 3D Heart with sparkles sticker -->
+              <div class="task-sticker-wrap" title="Dolce cuoricino">
+                <span class="sticker-emoji">💖</span>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- 4. PULSANTI D'AZIONE -->
+        <section class="actions-section" aria-label="Azioni della routine">
+          <!-- Main Cloud Shape Button -->
+          <button class="cloud-btn" id="btnCompleteAll" type="button">
+            <span class="material-symbols-rounded cloud-btn-icon">bedtime</span>
+            <span class="cloud-btn-text">Ho fatto tutto, vado a letto!</span>
+          </button>
+
+          <!-- Secondary Reset Button -->
+          <button class="reset-btn" id="btnResetList" type="button">
+            <span class="material-symbols-rounded">restart_alt</span>
+            <span>Azzera lista</span>
+          </button>
+        </section>
+
+        <!-- 5. CARD FINALE DELLA STORIA -->
+        <section class="story-card" aria-label="Favoletta della buonanotte">
+          <div class="story-header">
+            <div class="story-title-badge">
+              <span class="material-symbols-rounded book-icon">menu_book</span>
+              <span class="story-title">Mini-storia della Buonanotte (1 min)</span>
+            </div>
+            <div class="story-moon-badge" title="Dolce luna">
+              <span>🌙</span>
+            </div>
+          </div>
+
+          <!-- Story Narrative Box -->
+          <div class="story-body">
+            <div class="story-character-tag">
+              <span>🦊</span>
+              <span>La volpe Nocciola</span>
+            </div>
+            <p class="story-text">
+              «C'era una volta una piccola volpe di nome Nocciola che guardava le stelle brillare nel cielo d'argento.
+              S'addormentò presto, sognando di volare oltre le nuvole!»
+            </p>
+          </div>
+
+          <!-- Congratulatory Celebration Box -->
+          <div class="celebration-box">
+            <div class="celebration-icon">
+              <span>⭐</span>
+            </div>
+            <p class="celebration-text">
+              Bravissimo! Ora sei pronto per fare sogni bellissimi.
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Desktop Preview Switcher Toolbar -->
+  <div class="preview-toolbar">
+    <button class="toolbar-btn" id="toggleAudioBtn">
+      <span class="material-symbols-rounded" style="font-size: 16px;">music_note</span>
+      <span>Suoni ninna nanna: ON</span>
+    </button>
+    <button class="toolbar-btn" id="quickCompleteBtn">
+      <span class="material-symbols-rounded" style="font-size: 16px;">task_alt</span>
+      <span>Completa tutti</span>
+    </button>
+  </div>
+
+  <!-- Main JavaScript Logic -->
+  <script src="script.js"></script>
+</body>
+
+</html>
