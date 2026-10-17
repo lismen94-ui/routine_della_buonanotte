@@ -11,10 +11,16 @@
   const canvas = document.getElementById('confetti-canvas');
   const ctx = canvas.getContext('2d');
   const audioToggleBtn = document.getElementById('audioToggleBtn');
-  const toggleAudioBtn = document.getElementById('toggleAudioBtn');
+  const storyCard = document.getElementById('storyCard');
+  const btnVoiceControl = document.getElementById('btnVoiceControl');
+  const btnVoiceControlText = document.getElementById('btnVoiceControlText');
+  const voiceCtrlIcon = document.getElementById('voiceCtrlIcon');
+  const voiceStatusBadge = document.getElementById('voiceStatusBadge');
 
   let soundEnabled = true;
   let audioCtx = null;
+  let currentUtterance = null;
+  let isStorySpeaking = false;
 
   // Init Web Audio Synth for gentle magical bedtime chimes
   function playLullabyChime(freq = 523.25, type = 'sine') {
@@ -55,27 +61,21 @@
     });
   }
 
-  // Toggle Sound
+  // Toggle Sound Ninna Nanna
   function toggleSound() {
     soundEnabled = !soundEnabled;
     const icon = soundEnabled ? 'volume_up' : 'volume_off';
-    audioToggleBtn.innerHTML = `<span class="material-symbols-rounded" style="font-size: 11px;">${icon}</span>`;
-    if (toggleAudioBtn) {
-      toggleAudioBtn.innerHTML = `
-        <span class="material-symbols-rounded" style="font-size: 16px;">${soundEnabled ? 'music_note' : 'music_off'}</span>
-        <span>Suoni ninna nanna: ${soundEnabled ? 'ON' : 'OFF'}</span>
-      `;
+    if (audioToggleBtn) {
+      audioToggleBtn.innerHTML = `<span class="material-symbols-rounded" style="font-size: 11px;">${icon}</span>`;
     }
     showToast(soundEnabled ? 'Suoni ninna nanna attivati 🎵' : 'Suoni disattivati 🤫');
   }
 
-  audioToggleBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    toggleSound();
-  });
-
-  if (toggleAudioBtn) {
-    toggleAudioBtn.addEventListener('click', toggleSound);
+  if (audioToggleBtn) {
+    audioToggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleSound();
+    });
   }
 
   // Show Toast Notification
@@ -148,6 +148,86 @@
     });
   });
 
+  // Gestione Sintesi Vocale (Web Speech API) per la Favola della Buonanotte
+  function stopStorySpeech() {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+    isStorySpeaking = false;
+    if (voiceStatusBadge) voiceStatusBadge.classList.remove('active');
+    if (voiceCtrlIcon) voiceCtrlIcon.textContent = 'play_circle';
+    if (btnVoiceControlText) btnVoiceControlText.textContent = 'Riascolta favola';
+    if (btnVoiceControl) btnVoiceControl.title = 'Ascolta di nuovo la favola';
+  }
+
+  function playStorySpeech() {
+    if (!('speechSynthesis' in window)) {
+      showToast('Sintesi vocale non supportata su questo dispositivo 🔇');
+      return;
+    }
+
+    // Ferma eventuali letture precedenti
+    window.speechSynthesis.cancel();
+
+    // Testo della favola serale
+    const storyText = "La volpe Nocciola. C'era una volta una piccola volpe di nome Nocciola che guardava le stelle brillare nel cielo d'argento. S'addormentò presto, sognando di volare oltre le nuvole! Buonanotte e sogni d'oro piccolino.";
+
+    const utterance = new SpeechSynthesisUtterance(storyText);
+    utterance.lang = 'it-IT';
+    utterance.rate = 0.85; // Velocità rilassata serale
+    utterance.pitch = 0.95; // Tono caldo e distensivo
+
+    // Ricerca della voce italiana migliore se disponibile nel browser
+    const voices = window.speechSynthesis.getVoices();
+    const italianVoice = voices.find(v => v.lang === 'it-IT' || v.lang.startsWith('it'));
+    if (italianVoice) {
+      utterance.voice = italianVoice;
+    }
+
+    utterance.onstart = () => {
+      isStorySpeaking = true;
+      if (voiceStatusBadge) voiceStatusBadge.classList.add('active');
+      if (voiceCtrlIcon) voiceCtrlIcon.textContent = 'stop_circle';
+      if (btnVoiceControlText) btnVoiceControlText.textContent = 'Ferma lettura';
+      if (btnVoiceControl) btnVoiceControl.title = 'Ferma la lettura della favola';
+    };
+
+    utterance.onend = () => {
+      stopStorySpeech();
+      showToast('✨ Sogni d\'oro! La favola è terminata.');
+    };
+
+    utterance.onerror = (e) => {
+      if (e.error !== 'interrupted' && e.error !== 'canceled') {
+        stopStorySpeech();
+      }
+    };
+
+    currentUtterance = utterance;
+    window.speechSynthesis.speak(utterance);
+  }
+
+  // Pre-caricamento voci per browser moderni
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.onvoiceschanged = () => {
+      window.speechSynthesis.getVoices();
+    };
+  }
+
+  // Pulsante unico nel box della favola: Ferma o Riascolta lettura
+  if (btnVoiceControl) {
+    btnVoiceControl.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (isStorySpeaking || (window.speechSynthesis && window.speechSynthesis.speaking)) {
+        stopStorySpeech();
+        showToast('Lettura favola fermata 🤫');
+      } else {
+        playStorySpeech();
+        showToast('Ascoltiamo la favola... 📖🌙');
+      }
+    });
+  }
+
   // Primary Cloud CTA: "Ho fatto tutto, vado a letto!"
   btnCompleteAll.addEventListener('click', () => {
     taskCards.forEach(card => {
@@ -159,9 +239,25 @@
       }
     });
     updateProgress();
-    showToast('🛌 Tutti i passaggi completati! Buonanotte stellare! ✨');
+    showToast('🛌 Tutto pronto per la nanna! Ecco la tua favola... ✨');
     launchConfetti();
     playCelebrationChords();
+
+    // Sblocca e attiva immediatamente la card della favola
+    if (storyCard) {
+      storyCard.classList.remove('story-locked');
+      storyCard.classList.add('is-unlocked');
+
+      // Scroll morbido verso la sezione della favola per renderla visibile
+      setTimeout(() => {
+        storyCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 150);
+
+      // La sintesi vocale parte automaticamente in autonomia in italiano (it-IT, rate: 0.85)
+      setTimeout(() => {
+        playStorySpeech();
+      }, 500);
+    }
   });
 
   // Quick complete toolbar button
@@ -174,6 +270,15 @@
 
   // Secondary Action: "Azzera lista"
   btnResetList.addEventListener('click', () => {
+    // Ferma subito la voce narrante se in esecuzione
+    stopStorySpeech();
+
+    // Richiude e blocca la favola
+    if (storyCard) {
+      storyCard.classList.remove('is-unlocked');
+      storyCard.classList.add('story-locked');
+    }
+
     taskCards.forEach(card => {
       card.classList.remove('is-checked');
       const checkbox = card.querySelector('.custom-checkbox');

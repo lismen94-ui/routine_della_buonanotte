@@ -270,8 +270,8 @@
           </button>
         </section>
 
-        <!-- 5. CARD FINALE DELLA STORIA -->
-        <section class="story-card" aria-label="Favoletta della buonanotte">
+        <!-- 5. CARD FINALE DELLA STORIA (Si sblocca e compare con la voce) -->
+        <section class="story-card story-locked" id="storyCard" aria-label="Favoletta della buonanotte">
           <div class="story-header">
             <div class="story-title-badge">
               <span class="material-symbols-rounded book-icon">menu_book</span>
@@ -287,11 +287,24 @@
             <div class="story-character-tag">
               <span>🦊</span>
               <span>La volpe Nocciola</span>
+              <!-- Indicatore voce narrante in corso -->
+              <span class="voice-status-badge" id="voiceStatusBadge">
+                <span class="pulse-audio-dot"></span>
+                <span>Lettura in corso...</span>
+              </span>
             </div>
-            <p class="story-text">
+            <p class="story-text" id="storyParagraph">
               «C'era una volta una piccola volpe di nome Nocciola che guardava le stelle brillare nel cielo d'argento.
               S'addormentò presto, sognando di volare oltre le nuvole!»
             </p>
+
+            <!-- Unico controllo audio essenziale: Ferma / Riascolta lettura -->
+            <div class="story-audio-controls">
+              <button class="voice-ctrl-btn" id="btnVoiceControl" type="button" title="Ferma o riprendi la lettura della favola">
+                <span class="material-symbols-rounded" id="voiceCtrlIcon">stop_circle</span>
+                <span id="btnVoiceControlText">Ferma lettura</span>
+              </button>
+            </div>
           </div>
 
           <!-- Congratulatory Celebration Box -->
@@ -309,15 +322,11 @@
     </div>
   </div>
 
-  <!-- Desktop Preview Switcher Toolbar -->
+  <!-- Desktop Preview Toolbar (pulita e senza pulsanti audio ridondanti) -->
   <div class="preview-toolbar">
-    <button class="toolbar-btn" id="toggleAudioBtn">
-      <span class="material-symbols-rounded" style="font-size: 16px;">music_note</span>
-      <span>Suoni ninna nanna: ON</span>
-    </button>
     <button class="toolbar-btn" id="quickCompleteBtn">
       <span class="material-symbols-rounded" style="font-size: 16px;">task_alt</span>
-      <span>Completa tutti</span>
+      <span>Simula: Completa tutti i passaggi</span>
     </button>
   </div>
 
